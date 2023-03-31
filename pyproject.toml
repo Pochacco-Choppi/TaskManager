@@ -6,6 +6,7 @@ authors = ["dbp"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
+django = "^4.1.7"
 
 [tool.poetry.dev-dependencies]
 
