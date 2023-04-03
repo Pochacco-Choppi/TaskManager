@@ -6,33 +6,86 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('main', '0002_user_role'),
+        ("main", "0002_user_role"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Tag',
+            name="Tag",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=255, unique=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("title", models.CharField(max_length=255, unique=True)),
             ],
         ),
         migrations.CreateModel(
-            name='Task',
+            name="Task",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=255)),
-                ('description', models.CharField(max_length=255)),
-                ('creation_date', models.DateField(auto_now_add=True)),
-                ('change_date', models.DateField(auto_now=True)),
-                ('deadline_date', models.DateField()),
-                ('status', models.CharField(choices=[('new_task', 'New'), ('in_development', 'In Development'), ('in_qa', 'In Qa'), ('in_code_review', 'In Code Review'), ('ready_for_release', 'Ready For Release'), ('released', 'Released'), ('archived', 'Archived')], default='new_task', max_length=255)),
-                ('priority', models.FloatField()),
-                ('assignee', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='task_assignee', to=settings.AUTH_USER_MODEL)),
-                ('author', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='task_author', to=settings.AUTH_USER_MODEL)),
-                ('tags', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='main.tag')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("title", models.CharField(max_length=255)),
+                ("description", models.CharField(max_length=255)),
+                ("creation_date", models.DateField(auto_now_add=True)),
+                ("change_date", models.DateField(auto_now=True)),
+                ("deadline_date", models.DateField()),
+                (
+                    "status",
+                    models.CharField(
+                        choices=[
+                            ("new_task", "New"),
+                            ("in_development", "In Development"),
+                            ("in_qa", "In Qa"),
+                            ("in_code_review", "In Code Review"),
+                            ("ready_for_release", "Ready For Release"),
+                            ("released", "Released"),
+                            ("archived", "Archived"),
+                        ],
+                        default="new_task",
+                        max_length=255,
+                    ),
+                ),
+                ("priority", models.FloatField()),
+                (
+                    "assignee",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="task_assignee",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "author",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="task_author",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "tags",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to="main.tag",
+                    ),
+                ),
             ],
         ),
     ]

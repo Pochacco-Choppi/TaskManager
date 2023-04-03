@@ -16,8 +16,12 @@ class Task(models.Model):
 
     title = models.CharField(max_length=255)
     description = models.CharField(max_length=255)
-    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="task_author")
-    assignee = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="task_assignee")
+    author = models.ForeignKey(
+        User, on_delete=models.SET_NULL, null=True, related_name="task_author"
+    )
+    assignee = models.ForeignKey(
+        User, on_delete=models.SET_NULL, null=True, related_name="task_assignee"
+    )
     creation_date = models.DateField(auto_now_add=True)
     change_date = models.DateField(auto_now=True)
     deadline_date = models.DateField()
