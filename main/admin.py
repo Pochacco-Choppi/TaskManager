@@ -21,4 +21,7 @@ class TagAdmin(admin.ModelAdmin):
     ...
 
 
-task_manager_admin_site.register(User, UserAdmin)
+@admin.register(User, site=task_manager_admin_site)
+class CustomUserAdmin(UserAdmin):
+    UserAdmin.list_display += ("role",)
+    UserAdmin.fieldsets += (("Role", {"fields": ("role",)}),)
