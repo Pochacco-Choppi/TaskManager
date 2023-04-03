@@ -4,7 +4,7 @@ from .user import User
 from .tag import Tag
 
 
-class Task(models):
+class Task(models.Model):
     class Status(models.TextChoices):
         NEW = "new_task"
         IN_DEVELOPMENT = "in_development"
