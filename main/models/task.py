@@ -16,8 +16,8 @@ class Task(models.Model):
 
     title = models.CharField(max_length=255)
     description = models.CharField(max_length=255)
-    author = models.ForeignKey(User, on_delete=models.SET_NULL)
-    assignee = models.ForeignKey(User, on_delete=models.SET_NULL)
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="task_author")
+    assignee = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="task_assignee")
     creation_date = models.DateField(auto_now_add=True)
     change_date = models.DateField(auto_now=True)
     deadline_date = models.DateField()
@@ -25,4 +25,4 @@ class Task(models.Model):
         max_length=255, default=Status.NEW, choices=Status.choices
     )
     priority = models.FloatField()
-    tags = models.ForeignKey(Tag, on_delete=models.SET_NULL)
+    tags = models.ForeignKey(Tag, on_delete=models.SET_NULL, null=True)
