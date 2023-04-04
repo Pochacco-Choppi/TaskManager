@@ -29,4 +29,7 @@ class Task(models.Model):
         max_length=255, default=Status.NEW, choices=Status.choices
     )
     priority = models.FloatField()
-    tags = models.ForeignKey(Tag, on_delete=models.SET_NULL, null=True)
+    tags = models.ManyToManyField(Tag)
+
+    def __str__(self):
+        return self.title
