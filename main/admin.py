@@ -18,16 +18,20 @@ class TaskAdmin(admin.ModelAdmin):
     list_display = ("title", "author_link", "assignee_link", "deadline_date", "status")
 
     def author_link(self, obj):
-        url = reverse("admin:main_user_change", args=[obj.author.id])
-        link = '<a href="%s">%s</a>' % (url, obj.author.username)
-        return mark_safe(link)
+        if obj.author:
+            url = reverse("admin:main_user_change", args=[obj.author.id])
+            link = '<a href="%s">%s</a>' % (url, obj.author.username)
+            return mark_safe(link)
+        return "UNKNOWN_USER"
 
     author_link.short_description = "Author"
 
     def assignee_link(self, obj):
-        url = reverse("admin:main_user_change", args=[obj.assignee.id])
-        link = '<a href="%s">%s</a>' % (url, obj.assignee.username)
-        return mark_safe(link)
+        if obj.author:
+            url = reverse("admin:main_user_change", args=[obj.assignee.id])
+            link = '<a href="%s">%s</a>' % (url, obj.assignee.username)
+            return mark_safe(link)
+        return "UNKNOWN_USER"
 
     assignee_link.short_description = "Assignee"
 
@@ -39,5 +43,5 @@ class TagAdmin(admin.ModelAdmin):
 
 @admin.register(User, site=task_manager_admin_site)
 class CustomUserAdmin(UserAdmin):
-    UserAdmin.list_display += ("role",)
-    UserAdmin.fieldsets += (("Role", {"fields": ("role",)}),)
+    list_display = UserAdmin.list_display + ("role",)
+    fieldsets = UserAdmin.fieldsets + (("Role", {"fields": ("role",)}),)
