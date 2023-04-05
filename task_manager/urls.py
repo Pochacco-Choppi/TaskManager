@@ -21,4 +21,5 @@ from main.admin import task_manager_admin_site
 urlpatterns = [
     path("admin/", task_manager_admin_site.urls),
     path("api-auth/", include("rest_framework.urls")),
+    path("", include("main.urls")),
 ]
