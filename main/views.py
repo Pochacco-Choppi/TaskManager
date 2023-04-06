@@ -18,7 +18,6 @@ class TaskFilter(django_filters.FilterSet):
     author = django_filters.ModelChoiceFilter(queryset=User.objects.all())
     assignee = django_filters.ModelChoiceFilter(queryset=User.objects.all())
     tags = django_filters.ModelMultipleChoiceFilter(
-
         queryset=Tag.objects.all(),
     )
 
