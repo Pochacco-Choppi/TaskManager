@@ -1,8 +1,10 @@
 from rest_framework import viewsets
+from rest_framework.permissions import DjangoModelPermissionsOrAnonReadOnly
 import django_filters
 
 from .models import User, Task, Tag
 from .serializers import UserSerializer, TaskSerializer, TagSerializer
+from .permissions import StaffPermissions
 
 
 class UserFilter(django_filters.FilterSet):
@@ -30,6 +32,7 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.order_by("id")
     serializer_class = UserSerializer
     filterset_class = UserFilter
+    permission_classes = [StaffPermissions | DjangoModelPermissionsOrAnonReadOnly]
 
 
 class TaskViewSet(viewsets.ModelViewSet):
@@ -40,8 +43,10 @@ class TaskViewSet(viewsets.ModelViewSet):
     )
     serializer_class = TaskSerializer
     filterset_class = TaskFilter
+    permission_classes = [StaffPermissions | DjangoModelPermissionsOrAnonReadOnly]
 
 
 class TagViewSet(viewsets.ModelViewSet):
     queryset = Tag.objects.order_by("id")
     serializer_class = TagSerializer
+    permission_classes = [StaffPermissions | DjangoModelPermissionsOrAnonReadOnly]
