@@ -3,24 +3,12 @@ from typing import Type, Container
 
 from django.db import models
 from django.urls import reverse
-from rest_framework.test import APIClient, APITestCase
 
 from main.models import Tag, Task, User
+from test.base import TestViewSetBase
 
 
-class TestAdmin(APITestCase):
-    client: APIClient
-    admin: User
-
-    @classmethod
-    def setUpTestData(cls) -> None:
-        super().setUpTestData()
-        cls.admin = User.objects.create_superuser(
-            "test@test.ru", email=None, password=None
-        )
-        cls.client = APIClient()
-        cls.client.force_login(cls.admin)
-
+class TestAdmin(TestViewSetBase):
     @classmethod
     def assert_forms(
         cls, model: Type[models.Model], key: int, check_actions: Container = ()
@@ -41,9 +29,9 @@ class TestAdmin(APITestCase):
         self.assert_forms(User, self.admin.id)
 
     def test_tag(self) -> None:
-        tag = Tag.objects.create()
+        tag = self.create_tag({"title": "hohoho"})
         self.assert_forms(Tag, tag.id)
 
     def test_task(self) -> None:
-        task = Task.objects.create(deadline_date="2023-04-12", priority=1)
+        task = self.create_task({"deadline_date": "2023-04-12", "priority": 1})
         self.assert_forms(Task, task.id)
