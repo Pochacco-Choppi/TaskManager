@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # 3-rd party apps
     "django_filters",
     "rest_framework",
+    "drf_yasg",
     # project apps
     "main",
 ]
