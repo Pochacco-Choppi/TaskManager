@@ -102,7 +102,7 @@ class TestViewSetBase(APITestCase):
 
         self.authenticate(user)
 
-        response = self.client.put(self.detail_url(args), data=data)
+        response = self.client.put(self.detail_url(args), data=data, partial=True)
         return response
 
     def delete(self, args: List[Union[str, int]] = None, user=None):
@@ -114,7 +114,7 @@ class TestViewSetBase(APITestCase):
         return response
 
 
-class TestViewSetPermissionsBase(TestViewSetBase):
+class TestViewSetAPIBase(TestViewSetBase):
     view_set = None
     model = None
     cases_to_run = None
@@ -122,6 +122,7 @@ class TestViewSetPermissionsBase(TestViewSetBase):
     post_data = None
     put_data = None
     patch_data = None
+    MANY_USERS_TO_TEST = True
 
     @classmethod
     def set_test_data(cls):
@@ -129,20 +130,24 @@ class TestViewSetPermissionsBase(TestViewSetBase):
 
     @classmethod
     def set_post_data(cls):
-        cls.set_test_data()
+        raise NotImplemented
 
     @classmethod
     def set_put_data(cls):
-        cls.set_test_data()
+        raise NotImplemented
 
     @classmethod
     def set_patch_data(cls):
+        raise NotImplemented
+
+    @classmethod
+    def setUpTestData(cls) -> None:
         cls.set_test_data()
+        super().setUpTestData()
 
     @classmethod
     def setUp(cls):
-        cls.set_test_data()
-        default_user = cls.create_api_user(
+        cls.default_user = cls.create_api_user(
             {"username": "default_user", "email": "", "password": ""}
         )
 
@@ -156,22 +161,23 @@ class TestViewSetPermissionsBase(TestViewSetBase):
                     "deadline_date": "2022-12-12",
                     "description": "Some description",
                     "author": cls.admin,
-                    "assignee": default_user,
+                    "assignee": cls.default_user,
                     "priority": 1,
                 }
             )
 
-        cls.users_to_test.append(default_user)
+        cls.users_to_test.append(cls.default_user)
 
         cls.cases_to_run = {IS_STAFF_IF_RUN: False, IS_STAFF_ELSE_RUN: False}
         cls.model = cls.view_set.serializer_class.Meta.model
 
     @classmethod
     def assert_all_cases_run(cls):
-        assert all(cls.cases_to_run.values()), (
-            "Some cases doesn't runs check if "
-            "cls.users_to_test has all needed users for test."
-        )
+        if cls.MANY_USERS_TO_TEST:
+            assert all(cls.cases_to_run.values()), (
+                "Some cases doesn't runs check if "
+                "cls.users_to_test has all needed users for test."
+            )
 
     def assert_get_list(self):
         for user in self.users_to_test:

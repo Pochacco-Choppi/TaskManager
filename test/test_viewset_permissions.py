@@ -1,8 +1,8 @@
 from main.views import TaskViewSet, UserViewSet, TagViewSet
-from test.base import TestViewSetPermissionsBase
+from test.base import TestViewSetAPIBase
 
 
-class TestUserViewSetPermissions(TestViewSetPermissionsBase):
+class TestUserViewSetPermissions(TestViewSetAPIBase):
     view_set = UserViewSet
     basename = "users"
 
@@ -37,7 +37,7 @@ class TestUserViewSetPermissions(TestViewSetPermissionsBase):
         self.assert_get_detail()
 
 
-class TestTaskViewSetPermission(TestViewSetPermissionsBase):
+class TestTaskViewSetPermission(TestViewSetAPIBase):
     view_set = TaskViewSet
     basename = "tasks"
 
@@ -72,7 +72,7 @@ class TestTaskViewSetPermission(TestViewSetPermissionsBase):
         self.assert_get_detail()
 
 
-class TestTagViewSetPermission(TestViewSetPermissionsBase):
+class TestTagViewSetPermission(TestViewSetAPIBase):
     view_set = TagViewSet
     basename = "tags"
 
